@@ -1,25 +1,38 @@
+# -*- coding: cp1252 -*-
 import random
-file = open('secretSantaList.txt', 'r')
-nameList = []
-randomizedNames = []
+file = open('secretSantaListTest.txt', 'r')
+SantasList = []
+ChildrenList = []
+NameGiftDictionary = {}
 
 for line in file:
-	line = line.strip()
-	nameList.append(line)
-	randomizedNames.append(line)
+	(name, gift) = line.split(";")
+	NameGiftDictionary[name] = gift
+	SantasList.append(name)
+	ChildrenList.append(name)
 
-
-def WhoGiftsWho(list1, list2):
-	while (list1[len(list1)-1] == list2[len(list2)-1]):
-		random.shuffle(list2)
-	while(len(list2)):
-		who = list1.pop(0)
-		filename = who + ".txt"
+def WhoGiftsWho(RandomSantasList, ChildrenList):
+	while (RandomSantasList[len(RandomSantasList)-1] == ChildrenList[len(ChildrenList)-1]):
+		random.shuffle(ChildrenList)
+	while(len(ChildrenList)):
+		who = RandomSantasList.pop(0)
+		filename = who.split(',')[0] + ".txt"
 		out_file = open(filename, 'w+')
-		if (who == list2[0]):
-			out_file.write("Jesteś tajemniczym Świętym Mikołajem dla tej osoby:\n" + list2.pop(1))
+		if (who == ChildrenList[0]):
+			out_file.write(SantaTextFile(ChildrenList.pop(1)))
 		else:
-			out_file.write("Jesteś tajemniczym Świętym Mikołajem dla tej osoby:\n" + list2.pop(0))
+			out_file.write(SantaTextFile(ChildrenList.pop(0)))
 	return
 
-WhoGiftsWho(nameList, randomizedNames)
+
+def SantaTextFile(KidName):
+	return ("Jesteś tajemniczym Świętym Mikołajem dla tej osoby: " 
+				+ KidName 
+				+ ". Wybierając prezent możesz inspirować się tym listem do Świętego Mikołaja: " 
+				+ NameGiftDictionary[KidName])
+
+
+# def validate(ShuffledNameList, NameGiftDictionary):
+#	for i = len(ShuffledNameList)
+
+WhoGiftsWho(SantasList, ChildrenList)
