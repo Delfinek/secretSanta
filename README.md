@@ -1,2 +1,2 @@
 # secretSanta
-simple secret santa script in python created for Pyrkon tea
+simple secret santa script in python created for Pyrkon team
